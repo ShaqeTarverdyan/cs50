@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Quote
+{% endblock %}
+
+
+{% block main %}
+    <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Symbol</th>
+              <th scope="col">Shares</th>
+              <th scope="col">Price</th>
+              <th scope="col">Total</th>
+              <th scope="col">Created_at</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for transaction in transactions %}
+                  <tr>
+                      <th scope="row">{{transaction["symbol"]}}</th>
+                      <td scope="col">{{transaction["shares"]}}</td>
+                      <td scope="col">{{transaction["price"]}}</td>
+                      <td scope="col">{{"%.2f"|format(transaction["price"] * transaction["shares"])}}</td>
+                      <td>{{transaction["created_at"]}}</td>
+                  </tr>
+            {%endfor %}
+          </tbody>
+    </table>
+{% endblock %}
