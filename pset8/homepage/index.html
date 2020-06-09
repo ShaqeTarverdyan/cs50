@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+        <link href="styles.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+        <title>My Webpage</title>
+    </head>
+    <body class="container-fluid">
+        <header class="d-flex align-items-center" id="header">
+            <div class="col-sm text-left logo ">
+                <!--<img src="images/logo.png" alt="logo"/>-->
+                <a href="/">Notes World</a>
+            </div>
+            <div class="col-2 text-right logIn">
+                <div onclick="scrollToCurrentElement('forms')">
+                    <i class='far fa-user'></i>
+                </div>
+            </div>
+        </header>
+        <div class="content">
+            <div class="slider" id="slider">
+            	<div class="wrapper">
+            	    <div class="slides" id="slides">
+                	    <img src="images/todoimage_5.jpeg" alt="image_0" class="slide"/>
+                		<img src="images/background.png" alt="image_1" class="slide"/>
+                		<img src="images/firstThings.png" alt="image_2" class="slide"/>
+                		<img src="images/goals.jpg" alt="image_3" class="slide"/>
+            	    </div>
+                </div>
+                <a id="prev" class="control prev">
+                    <i class="material-icons">chevron_left</i>
+                </a>
+        		<a id="next" class="control next">
+        		    <i class="material-icons">chevron_right</i>
+        		</a>
+            </div>
+            <div class="scrollUp" id="scrollUp" onclick="scrollUp()">
+                <i class="material-icons">arrow_upward</i>
+            </div>
+            <div class="purpose">
+            	<section>
+            		<img src="images/planBusiness.png" alt="planBusiness"/>
+            		<div>
+            			<h3>Plan your business</h3>
+            		</div>
+            	</section>
+            	<section>
+	            	<div>
+	            		 <h3>All notes in one place</h3>
+	            	</div>
+	            	<img src="images/allNotesOnePlace.png" alt="allNotesOnePlace"/>
+         		</section>
+            	<section>
+            		<img src="images/mind.jpg" alt="remind"/>
+            		<div>
+            			<h3>We Remember about important things </h3>
+            		</div>
+            	 </section>
+            	<section>
+            		<div>
+            			<h3>First things first</h3>
+            		</div>
+            		<img src="images/firstThings_3.png" alt="focus"/>
+            	</section>
+            </div>
+
+            <div class="utilization">
+            	<h3>Usage...</h3>
+            	<div>
+            		<span class="fas fa-user-plus"></span>
+            		<p>Sign Up</p>
+            	</div>
+            	<div>
+            		<span class="fas fa-tasks"></span>
+            		<p>Add Notes</p>
+            	</div>
+            	<div>
+            		<span class="far fa-calendar-check"></span>
+            		<p>Get Things Done</p>
+            	</div>
+            </div>
+        </div>
+        <script>
+            function scrollToCurrentElement(content) {
+                var elmnt = document.getElementById(content);
+                elmnt.scrollIntoView();
+            }
+
+            let slider = document.getElementById("slider"),
+                sliderItems = document.getElementById("slides"),
+                prev = document.getElementById("prev"),
+                next = document.getElementById("next");
+
+            function slide(wrapper, items, prev, next) {
+                let posInitial,
+                    slides = items.getElementsByClassName("slide"),
+                    slidesLength = slides.length,
+                    slideSize = items.getElementsByClassName("slide")[0].offsetWidth,
+                    firstSlide = slides[0],
+                    lastSlide = slides[slidesLength - 1],
+                    cloneFirst = firstSlide.cloneNode(true),
+                    cloneLast = lastSlide.cloneNode(true),
+                    index = 0,
+                    allowShift = true;
+
+                    //clone first & last slide
+                    items.appendChild(cloneFirst);
+                    items.insertBefore(cloneLast, firstSlide);
+
+                    wrapper.classList.add('loaded');
+
+                    //Click events
+                    prev.addEventListener('click', function() { shiftSlide(-1)});
+                    next.addEventListener('click', function() { shiftSlide(1)});
+
+
+                    //translation event
+                    items.addEventListener('transitionend', checkIndex);
+
+                    function shiftSlide(dir, action) {
+                        items.classList.add('shifting');
+
+                        if(allowShift) {
+                            if(!action) {posInitial = items.offsetLeft; }
+                            if(dir == 1) {
+                                items.style.left = (posInitial - slideSize) + 'px';
+                                index++;
+                            } else if(dir == -1) {
+                                items.style.left = (posInitial + slideSize) + 'px';
+                                index--;
+                            }
+                        };
+                        allowShift = false;
+
+                    }
+
+                    function checkIndex() {
+                        items.classList.remove('shifting');
+                        if(index == -1) {
+                            items.style.left = -(slidesLength * slideSize) + 'px';
+                            index = slidesLength - 1;
+                        }
+
+                        if(index ==  slidesLength) {
+                            items.style.left = -(1 * slideSize) + 'px';
+                            index = 0;
+                        }
+
+                        allowShift = true;
+                    }
+                }
+                slide(slider, sliderItems, prev, next);
+
+                window.addEventListener('scroll', function() {
+                    if(scrollY > 200)
+                    {
+                        document.getElementById('scrollUp').style.display = 'flex';
+                    } else {
+                        document.getElementById('scrollUp').style.display = 'none';
+                    }
+                });
+
+                function scrollUp() {
+                    let elmnt = document.getElementById('header');
+                    elmnt.scrollIntoView()
+                }
+        </script>
+    </body>
+</html>

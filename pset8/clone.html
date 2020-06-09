@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Clone node</title>
+    </head>
+    <body>
+       <ul id="listOne"><li>one</li><li>two</li></ul>
+       <ul id="listSecond"><li>three</li><li>four</li></ul>
+
+       <button onclick="clnNode()">Click here!</button>
+
+       <script>
+            function clnNode() {
+                let itm = document.getElementById("listSecond").lastChild;
+                let cln = itm.cloneNode(true);
+                document.getElementById("listOne").appendChild(cln);
+            }
+       </script>
+    </body>
+</html>
